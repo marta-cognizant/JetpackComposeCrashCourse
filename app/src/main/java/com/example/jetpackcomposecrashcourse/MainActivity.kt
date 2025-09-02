@@ -16,6 +16,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
@@ -40,6 +42,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil3.compose.AsyncImage
 import com.example.jetpackcomposecrashcourse.ui.theme.ProfileCardLayoutThema
 import com.example.jetpackcomposecrashcourse.ui.theme.lightGreen
 import com.example.jetpackcomposecrashcourse.ui.theme.shape
@@ -57,7 +60,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MainScreen() {
+fun MainScreen(userProfiles: List<UserProfile> = userProfileList) {
     Scaffold(
         topBar = { AppBar() },
     ) { innerPadding ->
@@ -66,11 +69,18 @@ fun MainScreen() {
                 .fillMaxSize()
                 .padding(innerPadding),
         ) {
-            Column {
-                for (userProfile in userProfileList) {
-                    ProfileCard(userProfile)
+            LazyColumn {
+                items(userProfiles) { userProfile ->
+                    ProfileCard(userProfile = userProfile)
                 }
             }
+//            LazyColumn {
+//                userProfiles.forEach { userProfile ->
+//                    item {
+//                        ProfileCard(userProfile = userProfile)
+//                    }
+//                }
+//            }
         }
     }
 }
@@ -132,12 +142,19 @@ fun ProfilePicture(drawableId: Int, onlineStatus: Boolean) {
         modifier = Modifier.padding(16.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
-        Image(
-            painter = painterResource(id = drawableId),
-            contentDescription = "Content description",
+        AsyncImage(
+            model = drawableId,
+            contentDescription = "Profile picture",
             modifier = Modifier.size(72.dp),
             contentScale = ContentScale.Crop
         )
+//        Image(
+//            //bitmap = ImageBitmap.imageResource(id = drawableId),
+//            painter = painterResource(id = drawableId),
+//            contentDescription = "Profile picture",
+//            modifier = Modifier.size(72.dp),
+//            contentScale = ContentScale.Crop
+//        )
     }
 }
 
