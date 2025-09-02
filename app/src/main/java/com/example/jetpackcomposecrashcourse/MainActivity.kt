@@ -44,6 +44,7 @@ import androidx.wear.compose.material.ContentAlpha
 import androidx.wear.compose.material.LocalContentAlpha
 import com.example.jetpackcomposecrashcourse.ui.theme.ProfileCardLayoutThema
 import com.example.jetpackcomposecrashcourse.ui.theme.lightGreen
+import com.example.jetpackcomposecrashcourse.ui.theme.shape
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -99,7 +100,8 @@ fun ProfileCard() {
             .fillMaxWidth()
             .wrapContentHeight(align = Alignment.Top),
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White)
+        colors = CardDefaults.cardColors(containerColor = Color.White),
+        shape = shape.medium
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
