@@ -23,12 +23,12 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -40,8 +40,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.wear.compose.material.ContentAlpha
-import androidx.wear.compose.material.LocalContentAlpha
 import com.example.jetpackcomposecrashcourse.ui.theme.ProfileCardLayoutThema
 import com.example.jetpackcomposecrashcourse.ui.theme.lightGreen
 import com.example.jetpackcomposecrashcourse.ui.theme.shape
@@ -63,12 +61,18 @@ fun MainScreen() {
     Scaffold(
         topBar = { AppBar() },
     ) { innerPadding ->
-            Surface(
-                modifier = Modifier.fillMaxSize().padding(innerPadding),
-            ) {
-                ProfileCard()
+        Surface(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding),
+        ) {
+            Column {
+                for (userProfile in userProfileList) {
+                    ProfileCard(userProfile)
+                }
             }
         }
+    }
 }
 
 @ExperimentalMaterial3Api
@@ -93,10 +97,10 @@ fun AppBar() {
 }
 
 @Composable
-fun ProfileCard() {
+fun ProfileCard(userProfile: UserProfile) {
     Card(
         modifier = Modifier
-            .padding(16.dp)
+            .padding(top = 8.dp, bottom = 4.dp, start = 16.dp, end = 16.dp)
             .fillMaxWidth()
             .wrapContentHeight(align = Alignment.Top),
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
@@ -108,41 +112,56 @@ fun ProfileCard() {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Start
         ) {
-            ProfilePicture()
-            ProfileContent()
+            ProfilePicture(userProfile.drawableId, userProfile.status)
+            ProfileContent(userProfile.name, userProfile.status)
         }
 
     }
 }
 
 @Composable
-fun ProfilePicture() {
+fun ProfilePicture(drawableId: Int, onlineStatus: Boolean) {
+    val statusColor = if (onlineStatus) {
+        MaterialTheme.colorScheme.lightGreen
+    } else {
+        Color.Red
+    }
     Card(
         shape = CircleShape,
-        border = BorderStroke(width = 2.dp, color = MaterialTheme.colorScheme.lightGreen),
+        border = BorderStroke(width = 2.dp, color = statusColor),
         modifier = Modifier.padding(16.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Image(
-            painter = painterResource(id = R.drawable.profile_picture_1),
+            painter = painterResource(id = drawableId),
             contentDescription = "Content description",
             modifier = Modifier.size(72.dp),
             contentScale = ContentScale.Crop
         )
     }
-
 }
 
 @Composable
-fun ProfileContent() {
+fun ProfileContent(userNames: String, onlineStatus: Boolean) {
     Column(
         modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth()
     ) {
-        Text("John Doe", style = MaterialTheme.typography.headlineMedium)
-        CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-            Text("Active now", style = MaterialTheme.typography.bodySmall)
+        CompositionLocalProvider(
+            LocalContentColor provides (if (onlineStatus) MaterialTheme.colorScheme.onSurface.copy(
+                alpha = 1f
+            ) else MaterialTheme.colorScheme.onSurface.copy(
+                alpha = 0.38f
+            ))
+        ) {
+            Text(userNames, style = MaterialTheme.typography.headlineSmall)
+        }
+        CompositionLocalProvider(LocalContentColor provides MaterialTheme.colorScheme.onSurfaceVariant) {
+            Text(
+                text = if (onlineStatus) "Active now" else "Offline",
+                style = MaterialTheme.typography.bodySmall
+            )
         }
     }
 }
