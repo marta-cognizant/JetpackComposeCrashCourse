@@ -34,6 +34,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material.ContentAlpha
 import androidx.wear.compose.material.LocalContentAlpha
+import com.example.jetpackcomposecrashcourse.ui.theme.ProfileCardLayoutThema
+import com.example.jetpackcomposecrashcourse.ui.theme.lightGreen
 import java.security.Provider
 
 class MainActivity : ComponentActivity() {
@@ -41,7 +43,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            MainScreen()
+            ProfileCardLayoutThema {
+                MainScreen()
+            }
         }
     }
 }
@@ -50,7 +54,7 @@ class MainActivity : ComponentActivity() {
 fun MainScreen() {
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = Color.LightGray
+        // color = Color.LightGray
     ) {
         ProfileCard()
     }
@@ -63,7 +67,8 @@ fun ProfileCard() {
             .padding(16.dp)
             .fillMaxWidth()
             .wrapContentHeight(align = Alignment.Top),
-        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -81,7 +86,7 @@ fun ProfileCard() {
 fun ProfilePicture() {
     Card(
         shape = CircleShape,
-        border = BorderStroke(width = 2.dp, color = Color.Green),
+        border = BorderStroke(width = 2.dp, color = MaterialTheme.colorScheme.lightGreen),
         modifier = Modifier.padding(16.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
