@@ -7,7 +7,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -122,7 +121,7 @@ fun ProfileCard(userProfile: UserProfile) {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Start
         ) {
-            ProfilePicture(userProfile.drawableId, userProfile.status)
+            ProfilePicture(userProfile.pictureUrl, userProfile.status)
             ProfileContent(userProfile.name, userProfile.status)
         }
 
@@ -130,7 +129,7 @@ fun ProfileCard(userProfile: UserProfile) {
 }
 
 @Composable
-fun ProfilePicture(drawableId: Int, onlineStatus: Boolean) {
+fun ProfilePicture(pictureUrl: String, onlineStatus: Boolean) {
     val statusColor = if (onlineStatus) {
         MaterialTheme.colorScheme.lightGreen
     } else {
@@ -143,7 +142,7 @@ fun ProfilePicture(drawableId: Int, onlineStatus: Boolean) {
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         AsyncImage(
-            model = drawableId,
+            model = pictureUrl,
             contentDescription = "Profile picture",
             modifier = Modifier.size(72.dp),
             contentScale = ContentScale.Crop
