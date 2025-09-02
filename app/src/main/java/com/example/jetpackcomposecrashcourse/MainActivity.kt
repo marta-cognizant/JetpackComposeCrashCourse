@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.example.jetpackcomposecrashcourse
 
 import android.os.Bundle
@@ -14,14 +16,20 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ProvideTextStyle
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
@@ -29,14 +37,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material.ContentAlpha
 import androidx.wear.compose.material.LocalContentAlpha
 import com.example.jetpackcomposecrashcourse.ui.theme.ProfileCardLayoutThema
 import com.example.jetpackcomposecrashcourse.ui.theme.lightGreen
-import java.security.Provider
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,12 +59,36 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainScreen() {
-    Surface(
-        modifier = Modifier.fillMaxSize(),
-        // color = Color.LightGray
-    ) {
-        ProfileCard()
-    }
+    Scaffold(
+        topBar = { AppBar() },
+    ) { innerPadding ->
+            Surface(
+                modifier = Modifier.fillMaxSize().padding(innerPadding),
+            ) {
+                ProfileCard()
+            }
+        }
+}
+
+@ExperimentalMaterial3Api
+@Composable
+fun AppBar() {
+    TopAppBar(
+        title = {
+            Text("Messaging Application Users", maxLines = 1, overflow = TextOverflow.Ellipsis)
+        },
+        navigationIcon = {
+            Icon(
+                imageVector = Icons.Default.Home,
+                contentDescription = "Home button",
+                modifier = Modifier.padding(horizontal = 12.dp),
+            )
+        },
+        colors = topAppBarColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            titleContentColor = MaterialTheme.colorScheme.primary,
+        ),
+    )
 }
 
 @Composable
