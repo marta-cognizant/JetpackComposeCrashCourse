@@ -54,6 +54,9 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     testImplementation(libs.junit)
+    // Image loading
+    implementation("io.coil-kt.coil3:coil-compose:3.2.0")
+    implementation("io.coil-kt.coil3:coil-network-okhttp:3.2.0")
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
