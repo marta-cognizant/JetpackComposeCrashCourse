@@ -1,12 +1,12 @@
 package com.example.jetpackcomposecrashcourse.model.response
 
-import kotlinx.serialization.SerialName
+import com.google.gson.annotations.SerializedName
 
 data class MealsCategoriesResponse(val categories: List<MealResponse>)
 
 data class MealResponse(
-    @SerialName("idCategory") val id: String,
-    @SerialName("strCategory") val name: String,
-    @SerialName("strCategoryThumb") val description: String,
-    @SerialName("strCategoryDescription") val imageUrl: String
+    @SerializedName("idCategory") val id: String,
+    @SerializedName("strCategory") val name: String,
+    @SerializedName("strCategoryDescription") val description: String,
+    @SerializedName("strCategoryThumb") val imageUrl: String
 )
