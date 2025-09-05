@@ -45,7 +45,9 @@ import kotlinx.coroutines.launch
 @Composable
 fun MealsCategoriesScreen(navigationCallback: (String) -> Unit) {
     val viewModel: MealsCategoriesViewModel = viewModel()
-    var rememberedMeals by remember { mutableStateOf<List<MealResponse>>(emptyList<MealResponse>()) }
+    val rememberedMeals: MutableState<List<MealResponse>> =
+        remember { mutableStateOf(emptyList()) }
+    // var rememberedMeals by remember { mutableStateOf<List<MealResponse>>(emptyList<MealResponse>()) }
     val coroutineScope = rememberCoroutineScope()
 
     Log.d("MEALS_CATEGORY_SCREEN", "Recomposing")
@@ -53,13 +55,14 @@ fun MealsCategoriesScreen(navigationCallback: (String) -> Unit) {
         Log.d("LAUNCH_EFFECT", "GET_MEALS")
         coroutineScope.launch(Dispatchers.IO) {
             val meals = viewModel.mealsState
-            rememberedMeals = meals.value
+            Log.d("MEALS", meals.value.toString())
+            rememberedMeals.value = meals.value
         }
     }
 
     val scrollState = rememberLazyListState()
     LazyColumn(state = scrollState, contentPadding = PaddingValues(16.dp)) {
-        items(rememberedMeals) { meal ->
+        items(rememberedMeals.value) { meal ->
             Log.d("MEAL", meal.name)
             MealCategory(meal, navigationCallback)
         }

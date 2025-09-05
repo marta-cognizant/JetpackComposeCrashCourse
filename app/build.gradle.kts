@@ -55,6 +55,7 @@ dependencies {
     implementation(libs.converter.gson)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.animation.core)
     testImplementation(libs.junit)
     // Image loading
     implementation("io.coil-kt.coil3:coil-compose:3.2.0")
