@@ -1,6 +1,5 @@
 package com.example.jetpackcomposecrashcourse.ui.meals
 
-import android.util.Log
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -50,12 +49,9 @@ fun MealsCategoriesScreen(navigationCallback: (String) -> Unit) {
     // var rememberedMeals by remember { mutableStateOf<List<MealResponse>>(emptyList<MealResponse>()) }
     val coroutineScope = rememberCoroutineScope()
 
-    Log.d("MEALS_CATEGORY_SCREEN", "Recomposing")
     LaunchedEffect(key1 = "GET_MEALS", Unit) {
-        Log.d("LAUNCH_EFFECT", "GET_MEALS")
         coroutineScope.launch(Dispatchers.IO) {
             val meals = viewModel.mealsState
-            Log.d("MEALS", meals.value.toString())
             rememberedMeals.value = meals.value
         }
     }
@@ -63,7 +59,6 @@ fun MealsCategoriesScreen(navigationCallback: (String) -> Unit) {
     val scrollState = rememberLazyListState()
     LazyColumn(state = scrollState, contentPadding = PaddingValues(16.dp)) {
         items(rememberedMeals.value) { meal ->
-            Log.d("MEAL", meal.name)
             MealCategory(meal, navigationCallback)
         }
     }
